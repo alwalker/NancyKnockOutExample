@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.0.0.js"></script>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Main</title>
+</head>
+<body>
+    <select data-bind="options: people, optionsText: 'name'" size="5"></select>
+    <button data-bind="click: getPeople">Get People</button>
+</body>
+</html>
+<script>
+    function PeopleViewModel() {
+        self = this;
+        self.people = ko.observableArray([
+            { name: 'test' },
+            { name: 'test2' }
+        ]);
+
+        self.getPeople = function () {
+            $.getJSON('http://localhost:9000/people', function (data) {
+                self.people = data;
+            })
+        }
+    }
+
+    ko.applyBindings(new PeopleViewModel());
+</script>
