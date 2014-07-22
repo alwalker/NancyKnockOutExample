@@ -6,7 +6,7 @@
     <title>Main</title>
 </head>
 <body>
-    <select data-bind="options: people, optionsText: 'name'" size="5"></select>
+    <select data-bind="options: people, optionsText: 'Name', optionsValue: 'Id'" size="5"></select>
     <button data-bind="click: getPeople">Get People</button>
 </body>
 </html>
@@ -14,13 +14,16 @@
     function PeopleViewModel() {
         self = this;
         self.people = ko.observableArray([
-            { name: 'test' },
-            { name: 'test2' }
+            { Name: 'test', Id:1 },
+            { Name: 'test2', Id:2 }
         ]);
 
         self.getPeople = function () {
             $.getJSON('http://localhost:9000/people', function (data) {
-                self.people = data;
+                self.people.removeAll();
+                for (var i = 0 ; i < data.length ; i++) {
+                    self.people.push(data[i]);
+                }
             })
         }
     }
