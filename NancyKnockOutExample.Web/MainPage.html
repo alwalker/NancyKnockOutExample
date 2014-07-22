@@ -6,8 +6,11 @@
     <title>Main</title>
 </head>
 <body>
-    <select data-bind="options: people, optionsText: 'Name', optionsValue: 'Id'" size="5"></select>
-    <button data-bind="click: getPeople">Get People</button>
+        <select data-bind="options: people, optionsText: 'Name', optionsValue: 'Id'" size="5" style="float:left"></select>        
+        <button>Add</button>
+        <button>Remove</button>
+        <button>Edit</button>
+        <button data-bind="click: getPeople">Refresh</button>
 </body>
 </html>
 <script>
