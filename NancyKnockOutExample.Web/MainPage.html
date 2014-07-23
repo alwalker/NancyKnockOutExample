@@ -6,20 +6,31 @@
     <title>Main</title>
 </head>
 <body>
-        <select data-bind="options: people, optionsText: 'Name', optionsValue: 'Id'" size="5" style="float:left"></select>        
-        <button>Add</button>
-        <button>Remove</button>
-        <button>Edit</button>
-        <button data-bind="click: getPeople">Refresh</button>
+    <div>
+        <select data-bind="options: people, optionsText: 'Name', value: chosenPerson" size="5" style="float:left"></select>
+        <div><button>Add</button></div>
+        <div><button>Remove</button></div>
+        <div><button>Save</button></div>
+        <div><button data-bind="click: getPeople">Refresh</button></div>
+    </div>
+    <div data-bind="with: chosenPerson" style="margin-top:5px">
+        <label for="name">Name:</label>
+        <input id="name" data-bind="value: Name" />
+        <label for="pets">Pets:</label>
+        <ol id="pets" data-bind="foreach: Pets">
+            <li data-bind="text: Name"></li>
+        </ol>
+    </div>
 </body>
 </html>
 <script>
     function PeopleViewModel() {
         self = this;
         self.people = ko.observableArray([
-            { Name: 'test', Id:1 },
-            { Name: 'test2', Id:2 }
+            { Name: 'test', Id: 1, Pets: [{Name: "Test Pet 1"}]},
+            { Name: 'test2', Id: 2, Pets: [{ Name: "Test Pet 2" }] }
         ]);
+        self.chosenPerson = ko.observable();
 
         self.getPeople = function () {
             $.getJSON('http://localhost:9000/people', function (data) {
