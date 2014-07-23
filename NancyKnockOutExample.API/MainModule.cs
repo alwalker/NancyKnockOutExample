@@ -5,12 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Nancy.ModelBinding;
 
 namespace NancyKnockOutExample.API
 {
     public class MainModule : Nancy.NancyModule
     {
-        public MainModule() {
+        public MainModule()
+        {
             this.After.AddItemToEndOfPipeline(x => x.Response.WithHeader("Access-Control-Allow-Origin", "*"));
 
             Get["/people"] = _ =>
@@ -27,13 +29,24 @@ namespace NancyKnockOutExample.API
                     return HttpStatusCode.InternalServerError;
                 }
             };
-            Get["/people/{id}"] = _ =>
+            Post["/people"] = parameters =>
             {
-                return 200;
-            };
-            Post["/people/{id}"] = _ =>
-            {
-                return 200;
+                try
+                {
+                    using (var context = new Context())
+                    {
+                        var updated = this.Bind<Person>();
+                        context.People.Attach(updated);
+                        context.Entry(updated).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                    }
+                }
+                catch
+                {
+                    return HttpStatusCode.InternalServerError;
+                }
+
+                return HttpStatusCode.OK;
             };
         }
     }

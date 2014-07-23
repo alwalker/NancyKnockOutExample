@@ -10,7 +10,7 @@
         <select data-bind="options: people, optionsText: 'Name', value: chosenPerson" size="5" style="float:left"></select>
         <div><button>Add</button></div>
         <div><button>Remove</button></div>
-        <div><button>Save</button></div>
+        <div><button data-bind="click: save">Save</button></div>
         <div><button data-bind="click: getPeople">Refresh</button></div>
     </div>
     <div data-bind="with: chosenPerson" style="margin-top:5px">
@@ -39,6 +39,9 @@
                     self.people.push(data[i]);
                 }
             })
+        }
+        self.save = function () {
+            $.post('http://localhost:9000/people', self.chosenPerson());
         }
     }
 
