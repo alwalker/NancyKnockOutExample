@@ -8,7 +8,7 @@
 <body>
     <div>
         <select data-bind="options: people, optionsText: 'Name', value: chosenPerson" size="5" style="float:left"></select>
-        <div><button>Add</button></div>
+        <div><button data-bind="click: add">Add</button></div>
         <div><button>Remove</button></div>
         <div><button data-bind="click: save">Save</button></div>
         <div><button data-bind="click: getPeople">Refresh</button></div>
@@ -42,6 +42,13 @@
         }
         self.save = function () {
             $.post('http://localhost:9000/people', self.chosenPerson());
+        }
+        self.add = function () {
+            $.ajax({
+                url: 'http://localhost:9000/people',
+                type: 'PUT',
+                data: { Name: self.chosenPerson().Name, Pets: [] }
+            });
         }
     }
 

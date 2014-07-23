@@ -29,7 +29,7 @@ namespace NancyKnockOutExample.API
                     return HttpStatusCode.InternalServerError;
                 }
             };
-            Post["/people"] = parameters =>
+            Post["/people"] = _ =>
             {
                 try
                 {
@@ -47,6 +47,24 @@ namespace NancyKnockOutExample.API
                 }
 
                 return HttpStatusCode.OK;
+            };
+            Put["/people"] = _ =>
+            {
+                try
+                {
+                    using (var context = new Context())
+                    {
+                        var newPerson = this.Bind<Person>();
+                        context.People.Add(newPerson);
+                        context.SaveChanges();
+                    }
+
+                    return HttpStatusCode.OK;
+                }
+                catch
+                {
+                    return HttpStatusCode.InternalServerError;
+                }
             };
         }
     }
