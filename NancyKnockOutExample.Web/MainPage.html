@@ -14,12 +14,10 @@
         <div><button data-bind="click: getPeople">Refresh</button></div>
     </div>
     <div data-bind="with: chosenPerson" style="margin-top:5px">
-        <label for="name">Name:</label>
-        <input id="name" data-bind="value: Name" />
-        <label for="pets">Pets:</label>
-        <ol id="pets" data-bind="foreach: Pets">
+        Pets:
+        <ul id="pets" data-bind="foreach: Pets">
             <li data-bind="text: Name"></li>
-        </ol>
+        </ul>
     </div>
 </body>
 </html>
